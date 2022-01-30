@@ -49,11 +49,11 @@ public class UserController {
 
     }
 
-
 }
-   @Data
-   class RoleToUserForm{
+    @Data
+    class RoleToUserForm{
         private String userEmail;
         private String roleName;
-   }
+    }
+
 
