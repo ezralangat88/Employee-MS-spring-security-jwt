@@ -28,7 +28,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    //AuthenticationManager will be called to authenticate user by attemptAuthentication and parse credentials
+    //AuthenticationManager will be called to authenticate user by attemptAuthentication and credentials are parsed
     private AuthenticationManager authenticationManager;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager){
