@@ -50,10 +50,12 @@ public class UserController {
     }
 
 }
-    @Data
-    class RoleToUserForm{
-        private String userEmail;
-        private String roleName;
-    }
+
+@Data
+class RoleToUserForm{
+    private String userEmail;
+    private String roleName;
+}
+
 
 

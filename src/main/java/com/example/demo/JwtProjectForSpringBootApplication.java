@@ -32,17 +32,17 @@ public class JwtProjectForSpringBootApplication {
 			userService.saveRole(new Role(3, "ROLE_ADMIN"));
 			userService.saveRole(new Role(4, "ROLE_SUPER_ADMIN"));
 
-			userService.saveUser(new User(1, "John Travolta", "john", "1234", new ArrayList<>()));
-			userService.saveUser(new User(2, "Will Smith", "will", "1234", new ArrayList<>()));
-			userService.saveUser(new User(3, "Jim Carry", "jim", "1234", new ArrayList<>()));
-			userService.saveUser(new User(4, "Arnold Schwarzenegger", "arnold", "1234", new ArrayList<>()));
+			userService.saveUser(new User(1, "James Trevor", "trevor", "1234", new ArrayList<>()));
+			userService.saveUser(new User(2, "Steve Curry", "curry", "1234", new ArrayList<>()));
+			userService.saveUser(new User(3, "Lebron james", "lebron", "1234", new ArrayList<>()));
+			userService.saveUser(new User(4, "Gaucho Ronaldinho", "gaucho", "1234", new ArrayList<>()));
 
-			userService.addRoleToUser("john", "ROLE_USER");
-			userService.addRoleToUser("will", "ROLE_MANAGER");
-			userService.addRoleToUser("jim", "ROLE_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_SUPER_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_ADMIN");
-			userService.addRoleToUser("arnold", "ROLE_USER");
+			userService.addRoleToUser("trevor", "ROLE_USER");
+			userService.addRoleToUser("curry", "ROLE_MANAGER");
+			userService.addRoleToUser("lebron", "ROLE_ADMIN");
+			userService.addRoleToUser("gaucho", "ROLE_SUPER_ADMIN");
+			userService.addRoleToUser("gaucho", "ROLE_ADMIN");
+			userService.addRoleToUser("gaucho", "ROLE_USER");
 		};
 	}
 
