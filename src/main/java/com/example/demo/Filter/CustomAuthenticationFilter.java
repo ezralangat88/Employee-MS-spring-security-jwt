@@ -47,7 +47,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         //Wrapping info that is already coming with the request and then passing it to UsernamePasswordAuthenticationToken
         //and calling authenticationManager to authenticate the user that is logging in the request
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password );
-        return  authenticationManager.authenticate(authenticationToken);
+            return  authenticationManager.authenticate(authenticationToken);
     }
 
     // successfulAuthentication method is called once login is successful
@@ -68,7 +68,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         //Refresh Token
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                 .withIssuer(request.getRequestURI().toString())
                 .sign(algorithm);
         //Sending results response to the user in the frontend
