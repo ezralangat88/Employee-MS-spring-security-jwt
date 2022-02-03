@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -65,15 +66,14 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
 
                 }catch (Exception exception){
-                    log.error("Error logging in: ", exception.getMessage());
+                    log.error("Error logging in: {}", exception.getMessage());
                     response.setHeader("error", exception.getMessage());
                     response.setStatus(FORBIDDEN.value());
 
                     Map<String, String> error = new HashMap<>();
-                    error.put("access_token", exception.getMessage());
-                    response.setContentType(APPLICATION_JSON_VALUE);
+                    error.put("error_message", exception.getMessage());
+                    response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), error);
-
                 }
             }else {
                 filterChain.doFilter(request, response);
