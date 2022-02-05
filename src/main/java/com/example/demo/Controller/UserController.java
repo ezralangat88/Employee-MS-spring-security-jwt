@@ -6,11 +6,14 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.Entity.Role;
 import com.example.demo.Entity.User;
+import com.example.demo.Exception.ResourceNotFoundException;
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,10 +42,22 @@ public class UserController {
 
     private final UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers(){
         return ResponseEntity.ok().body(userService.getAllUsers());
 
+    }
+
+    /** READ / Find By ID */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getEmployeeById(@PathVariable(value = "id") Integer id)
+            throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id :: " + id));
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping("/user/save")
@@ -59,6 +74,44 @@ public class UserController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
 
+    }
+
+    /** UPDATE */
+//     @PathVariable is used in Binding url value to method parameter value
+    @PutMapping("/user/update/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Integer id,
+                                           @RequestBody User userDetails) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id :: " + id));
+
+        user.setName(userDetails.getName());
+        user.setUsername(userDetails.getUsername());
+        user.setPassword(userDetails.getPassword());
+
+//        user.setEmailId(userDetails.getEmailId());
+//        user.setLastName(userDetails.getLastName());
+//        user.setFirstName(userDetails.getFirstName());
+//        user.setPhoneNo(userDetails.getPhoneNo());
+//        user.setGender(userDetails.getGender());
+
+//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/update").toUriString());
+//        return ResponseEntity.created(uri).body(userService.saveUser(user));
+
+        User updatedUser = userService.saveUser(user);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    /** DELETE */
+    @DeleteMapping("/user/delete/{id}")
+    public Map<String, Boolean> deleteUser1(@PathVariable(value = "id") Integer id)
+            throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + id));
+
+        userRepository.delete(user);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
     }
 
     @PostMapping("/role/addtouser")
